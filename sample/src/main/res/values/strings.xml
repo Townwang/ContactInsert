@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ContactInsertDemo</string>
+    <!--权限管理 permission-->
+    <string name="permission_title">请求授权</string>
+    <string name="permission_yes_content">需要一些权限方可正常使用,请确认授权!</string>
+    <string name="permission_deny_content">权限被拒绝无法使用此功能,请手动授权</string>
+    <string name="permission_yes">好的</string>
+    <string name="permission_deny">拒绝</string>
+    <string name="confirm">提交</string>
+    <string name="clear">取消</string>
+</resources>
