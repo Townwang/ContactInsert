@@ -1,6 +1,5 @@
 # ContactInsert
 [![Download](https://api.bintray.com/packages/townwang/ContactInsert/contactutils/images/download.svg)](https://bintray.com/townwang/ContactInsert/contactutils/_latestVersion)
-
 [![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Operating library based on android address book.
