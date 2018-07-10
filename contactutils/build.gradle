@@ -85,7 +85,7 @@ bintray {
     pkg {
         repo = "ContactInsert"  // 上传到maven库。（这里要特别注意，如果写了maven报404错误，请在bintray创建一个仓库，这里填改成你创建的仓库的名字。）
         name = "contactutils"  // 发布到Bintray上的项目名字
-        userOrg = 'bintray.user' // Bintray的用户
+        userOrg = "townwang" // Bintray的用户
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
