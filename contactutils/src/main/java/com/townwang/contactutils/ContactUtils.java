@@ -1,7 +1,12 @@
+/*
+ * Copyright © 文科中的技术宅
+ * blog:https://www.townwang.com
+ */
 package com.townwang.contactutils;
 
-import android.app.Activity;
 import android.content.ContentResolver;
+import android.os.Handler;
+import android.os.Looper;
 
 /**
  * @author Town
@@ -20,15 +25,18 @@ public class ContactUtils {
      * @param contactName 联系人姓名
      * @param listener  查询回调
      */
-    public void query(final ContentResolver resolver, final String contactName, final Activity activity, final QueryListener listener) {
+    public void query(final ContentResolver resolver, final String contactName, final QueryListener listener) {
         new Thread () {
             @Override
             public void run() {
                 super.run ();
                 final boolean result = ContactProviderHelper.queryTheContactName (resolver, contactName);
-                activity.runOnUiThread(new Runnable() {
+
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        //已在主线程中，可以更新UI
                         listener.queryResult (result);
                     }
                 });
@@ -56,15 +64,18 @@ public class ContactUtils {
      * @param bean 联系人
      * @param listener 插入结果回调
      */
-    public void insert(final ContentResolver resolver,  final ContactBean bean, final Activity activity, final InsertListener listener) {
+    public void insert(final ContentResolver resolver,  final ContactBean bean, final InsertListener listener) {
         new Thread () {
             @Override
             public void run() {
                 super.run ();
                 final boolean result = ContactProviderHelper.insertContent (resolver, bean.getNumbers (), bean.getName ());
-                activity.runOnUiThread(new Runnable() {
+
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        //已在主线程中，可以更新UI
                         listener.insertResult (result);
                     }
                 });
@@ -95,16 +106,17 @@ public class ContactUtils {
      * @param RAW_CONTACT_ID 联系人ID
      * @param listener 删除结果回调
      */
-    public void delete(final ContentResolver resolver, final String contactName, final String RAW_CONTACT_ID ,final Activity activity, final DeleteListener listener){
+    public void delete(final ContentResolver resolver, final String contactName, final String RAW_CONTACT_ID, final DeleteListener listener){
         new Thread () {
             @Override
             public void run() {
                 super.run ();
                 final boolean result = ContactProviderHelper.delete (resolver,contactName,RAW_CONTACT_ID);
-                activity.runOnUiThread(new Runnable() {
+                Handler mainHandler = new Handler(Looper.getMainLooper());
+                mainHandler.post(new Runnable() {
                     @Override
                     public void run() {
-
+                        //已在主线程中，可以更新UI
                         listener.deleteResult (result);
                     }
                 });

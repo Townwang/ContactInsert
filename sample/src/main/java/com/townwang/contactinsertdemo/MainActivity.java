@@ -56,15 +56,15 @@ public class MainActivity extends AppCompatActivity implements QueryListener, In
 
 
     public void query(View view) {
-        contactUtils.query (resolver,contactName,this,this);
+        contactUtils.query (resolver,contactName,this);
     }
 
     public void insert(View view) {
-        contactUtils.insert (resolver,bean,this,this);
+        contactUtils.insert (resolver,bean,this);
     }
 
     public void delete(View view) {
-        contactUtils.delete (resolver,contactName,RAW_CONTACT_ID,this,this);
+        contactUtils.delete (resolver,contactName,RAW_CONTACT_ID,this);
     }
 
     @Override

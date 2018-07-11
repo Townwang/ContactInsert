@@ -1,3 +1,7 @@
+/*
+ * Copyright © 文科中的技术宅
+ * blog:https://www.townwang.com
+ */
 package com.townwang.contactutils;
 
 import android.annotation.SuppressLint;
@@ -11,8 +15,6 @@ import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
 /**
  * @author Town
  * @created at 2016/12/16 16:24
@@ -32,12 +34,14 @@ public class ContactProviderHelper {
     public static boolean queryTheContactName(ContentResolver resolver, String contactName) {
         try {
             Uri uri = ContactsContract.Data.CONTENT_URI;
-            Cursor cursorUser = resolver.query (uri, new String[]{ContactsContract.CommonDataKinds.Phone._ID,
+            @SuppressLint("Recycle") Cursor cursorUser = resolver.query (uri, new String[]{ContactsContract.CommonDataKinds.Phone._ID,
                     ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID}, null, null, null);
-            while (cursorUser.moveToNext ()) {
-                String name = cursorUser.getString (1);
-                if (name.equals (contactName)) {
-                    return true;
+            if (cursorUser != null) {
+                while (cursorUser.moveToNext ()) {
+                    String name = cursorUser.getString (1);
+                    if (name.equals (contactName)) {
+                        return true;
+                    }
                 }
             }
         } catch (NullPointerException e) {
@@ -50,18 +54,18 @@ public class ContactProviderHelper {
     public static boolean delete(ContentResolver resolver, String name, String RAW_CONTACT_ID) {
         Cursor cursor = resolver.query (android.provider.ContactsContract.Data.CONTENT_URI, new String[]{RAW_CONTACT_ID}, ContactsContract.Contacts.DISPLAY_NAME +
                 "=?", new String[]{name}, null);
-        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation> ();
-        if (cursor.moveToFirst ()) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<> ();
+        if (cursor != null && cursor.moveToFirst()) {
             do {
-                long Id = cursor.getLong (cursor.getColumnIndex (RAW_CONTACT_ID));
-                ops.add (ContentProviderOperation.newDelete (ContentUris.withAppendedId (ContactsContract.RawContacts.CONTENT_URI, Id)).build ());
+                long Id = cursor.getLong(cursor.getColumnIndex(RAW_CONTACT_ID));
+                ops.add(ContentProviderOperation.newDelete(ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, Id)).build());
                 try {
-                    resolver.applyBatch (ContactsContract.AUTHORITY, ops);
+                    resolver.applyBatch(ContactsContract.AUTHORITY, ops);
                 } catch (Exception e) {
                     return false;
                 }
-            } while (cursor.moveToNext ());
-            cursor.close ();
+            } while (cursor.moveToNext());
+            cursor.close();
         }
         return true;
     }
@@ -78,7 +82,7 @@ public class ContactProviderHelper {
                 //插入或者更新联系人
                 for (String str : phoneNumber) {
                     // 向data表插入数据
-                    if (contactName != "") {
+                    if (!contactName.equals("")) {
                         values.clear ();
                         values.put (ContactsContract.Contacts.Data.RAW_CONTACT_ID, rawContactId);
                         values.put (ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
@@ -87,7 +91,7 @@ public class ContactProviderHelper {
                                 values);
                     }
                     // 向data表插入电话号码
-                    if (str != "") {
+                    if (!str.equals("")) {
                         values.clear ();
                         values.put (ContactsContract.Contacts.Data.RAW_CONTACT_ID, rawContactId);
                         values.put (ContactsContract.Contacts.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
