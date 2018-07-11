@@ -8,7 +8,7 @@ Operating library based on android address book.
 
 ```
 dependencies {
- implementation 'com.townwang:contactutils:1.0.0'
+ implementation 'com.townwang:contactutils:1.0.1'
 }
 ```
 ## 实现功能
